@@ -342,18 +342,21 @@ export default function BatchSubmit() {
       alert("Please enter valid recipients and amounts.");
       return;
     }
-
+  
     try {
-      // ✅ Convert ETH to Wei before sending
+      // Convert ETH to Wei
       const amountsInWei = amounts.map((a) => ethers.parseEther(a).toString());
-
+      
+      // Calculate total ETH needed
+      const totalAmount = amounts.reduce((acc, a) => acc + parseFloat(a), 0);
+  
       setLoading(true);
       const response = await fetch("http://localhost:5500/submit-transactions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipients, amounts: amountsInWei }), // ✅ Send converted amounts
+        body: JSON.stringify({ recipients, amounts: amountsInWei, totalAmount }),
       });
-
+  
       const data = await response.json();
       if (data.success) {
         setTxHash(data.txHash);
@@ -368,6 +371,7 @@ export default function BatchSubmit() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="p-4 bg-gray-800 text-white rounded shadow-md w-full max-w-md">
