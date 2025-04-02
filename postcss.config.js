@@ -3,3 +3,9 @@ module.exports = {
     '@tailwindcss/postcss': {}, // Replace 'tailwindcss' with this
   },
 };
+// module.exports = {
+//   plugins: {
+//     tailwindcss: {},
+//     autoprefixer: {},
+//   },
+// };
